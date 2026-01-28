@@ -39,9 +39,7 @@ export const ScholarshipDetails: React.FC = () => {
   if (loading) return <div className="details-loading"><div className="spinner"></div><p>Loading...</p></div>;
   if (!scholarship) return <div className="details-error"><h2>Not found</h2><button onClick={() => navigate('/scholarships')}>Back</button></div>;
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
-  };
+
 
   const getDaysUntilDeadline = (deadline: string) => {
     const today = new Date();

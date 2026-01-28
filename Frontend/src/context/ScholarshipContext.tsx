@@ -11,6 +11,7 @@ export interface Scholarship {
   requiredDocuments: string[];
   official_website?: string;
   matchPercentage?: number;
+  education_level: string;
 }
 
 interface ScholarshipContextType {
