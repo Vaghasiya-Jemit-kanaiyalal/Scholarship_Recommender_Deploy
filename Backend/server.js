@@ -23,7 +23,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/scholarships', scholarshipRoutes);
 app.use('/api/profile', profileRoutes);
 
-// Health check route
+// Health check route AFter the deploying Backend
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
