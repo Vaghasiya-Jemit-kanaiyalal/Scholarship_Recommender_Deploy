@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../hooks/useToast';
+import { ToastContainer } from '../components/Toast';
 import { profileAPI } from '../services/api';
 
 export const ProfileForm: React.FC = () => {
   const navigate = useNavigate();
+  const { toasts, removeToast, showSuccess, showError } = useToast();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
@@ -64,11 +67,11 @@ export const ProfileForm: React.FC = () => {
 
     try {
       await profileAPI.update(formData);
-      alert('Profile saved successfully! Your matches are being updated.');
-      navigate('/dashboard');
+      showSuccess('Profile saved successfully! Your matches are being updated.', '🎉');
+      setTimeout(() => navigate('/dashboard'), 1500);
     } catch (error) {
       console.error('Failed to save profile:', error);
-      alert('Failed to save profile. Please check if all required fields are filled.');
+      showError('Failed to save profile. Please check if all required fields are filled.', '⚠️');
     } finally {
       setSaving(false);
     }
@@ -85,6 +88,7 @@ export const ProfileForm: React.FC = () => {
 
   return (
     <div className="profile-form-page">
+      <ToastContainer toasts={toasts} onClose={removeToast} />
       <div className="profile-form-card">
         <div className="form-header">
           <h1>Complete Your Profile</h1>

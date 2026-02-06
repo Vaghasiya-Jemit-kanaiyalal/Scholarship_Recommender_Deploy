@@ -87,7 +87,7 @@ export const Dashboard: React.FC = () => {
         {/* Stats Section */}
         <div className="stats-section">
           <div className="stat-card stat-card-primary">
-            <div className="stat-icon"></div>
+            <div className="stat-icon">🎓</div>
             <div className="stat-content">
               <h3>Available Scholarships</h3>
               <p className="stat-number">{scholarships.length}</p>
@@ -96,7 +96,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           <div className="stat-card stat-card-success">
-            <div className="stat-icon"></div>
+            <div className="stat-icon">💡</div>
             <div className="stat-content">
               <h3>Personalized Matches</h3>
               <p className="stat-number">{topMatches.length}</p>
@@ -105,7 +105,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           <div className="stat-card stat-card-info">
-            <div className="stat-icon"></div>
+            <div className="stat-icon">📋</div>
             <div className="stat-content">
               <h3>Profile Score</h3>
               <p className="stat-number">{profileCompletion}%</p>

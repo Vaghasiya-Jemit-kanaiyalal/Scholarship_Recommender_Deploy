@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useScholarships } from '../context/ScholarshipContext';
+import { useToast } from '../hooks/useToast';
+import { ToastContainer } from '../components/Toast';
 
 export const AdminDashboard: React.FC = () => {
   const { scholarships, addScholarship, deleteScholarship, updateScholarship } = useScholarships();
+  const { toasts, removeToast, showSuccess, showError } = useToast();
   const [showForm, setShowForm] = useState(false);
   
   const [editData, setEditData] = useState<any>(null);
@@ -49,7 +52,7 @@ export const AdminDashboard: React.FC = () => {
     e.preventDefault();
 
     if (!formData.description || formData.description.trim().length < 20) {
-      alert("Validation Error: Description must be at least 20 characters long.");
+      showError('Description must be at least 20 characters long.', '⚠️');
       return;
     }
 
@@ -69,10 +72,10 @@ export const AdminDashboard: React.FC = () => {
 
       if (showEditModal && editData) {
         await updateScholarship(editData.id, payload);
-        alert('Scholarship updated successfully!');
+        showSuccess('Scholarship updated successfully!', '✏️');
       } else {
         await addScholarship(payload);
-        alert('Scholarship added successfully!');
+        showSuccess('Scholarship added successfully!', '🎉');
       }
 
       setFormData({ name: '', description: '', deadline: '', amount: '', eligibility: '', requiredDocuments: '', officialWebsite: '', annualIncome: '', category: 'GEN', educationLevel: 'Undergraduate' });
@@ -81,7 +84,7 @@ export const AdminDashboard: React.FC = () => {
       setEditData(null);
     } catch (error: any) {
       const errorMessage = error.response?.data?.details || error.message || 'Operation failed';
-      alert(`Error: ${errorMessage}`);
+      showError(`Error: ${errorMessage}`, '❌');
     }
   };
 
@@ -89,9 +92,9 @@ export const AdminDashboard: React.FC = () => {
     if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
       try {
         await deleteScholarship(id);
-        alert('Scholarship deleted successfully!');
+        showSuccess('Scholarship deleted successfully!', '🗑️');
       } catch (error) {
-        alert('Failed to delete scholarship.');
+        showError('Failed to delete scholarship.', '❌');
       }
     }
   };
@@ -104,6 +107,7 @@ export const AdminDashboard: React.FC = () => {
 
   return (
     <div className="admin-dashboard">
+      <ToastContainer toasts={toasts} onClose={removeToast} />
       <div className="admin-header">
         <h1>Admin Dashboard</h1>
         <button 

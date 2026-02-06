@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -6,6 +6,7 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, isAdmin, logout, user } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const userNavItems = [
     { label: 'Dashboard', path: '/dashboard' },
@@ -25,6 +26,7 @@ export const Navbar: React.FC = () => {
   const handleLogout = () => {
     logout();
     navigate('/'); //
+    setMobileMenuOpen(false);
   };
 
   // FIX 2: Determine logo destination
@@ -37,23 +39,67 @@ export const Navbar: React.FC = () => {
     return '/'; //
   };
 
+  const handleNavLinkClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-brand">
           {/* Logo now routes based on auth status */}
-          <Link to={getLogoRedirectPath()}>
-            ScholarshipHub
+          <Link to={getLogoRedirectPath()} className="navbar-brand-link">
+            {/* 
+              ===== LOGO PATH CONFIGURATION =====
+              Step 1: Replace '/logo.svg' with your logo path
+              
+              Choose ONE of the following options:
+              
+              Option A - Use SVG from public folder:
+                src="/logo.svg"
+              
+              Option B - Use PNG/JPG from public folder:
+                src="/your-logo.png"
+              
+              Option C - Use image from assets folder:
+                src={require('../assets/logo.png')} (for local imports)
+              
+              Option D - Use online URL:
+                src="https://example.com/your-logo.png"
+              
+              Default: Using SVG logo from public folder
+              ===================================
+            */}
+            <img 
+              src="/logo.jpeg" 
+              alt="ScholarshipHub Logo" 
+              className="navbar-logo"
+            />
+            <span className="navbar-brand-text">ScholarshipHub</span>
           </Link>
         </div>
 
+        {/* Mobile Hamburger Menu Button */}
         {isAuthenticated && !isAuthPage && (
-          <ul className="navbar-menu">
+          <button 
+            className={`hamburger-menu ${mobileMenuOpen ? 'active' : ''}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        )}
+
+        {isAuthenticated && !isAuthPage && (
+          <ul className={`navbar-menu ${mobileMenuOpen ? 'active' : ''}`}>
             {navItems.map((item) => (
               <li key={item.path}>
                 <Link
                   to={item.path}
                   className={location.pathname === item.path ? 'active' : ''}
+                  onClick={handleNavLinkClick}
                 >
                   {item.label}
                 </Link>
@@ -62,7 +108,7 @@ export const Navbar: React.FC = () => {
           </ul>
         )}
 
-        <div className="navbar-auth">
+        <div className={`navbar-auth ${mobileMenuOpen ? 'active' : ''}`}>
           {isAuthenticated && !isAuthPage && (
             <>
               <span className="user-name">
