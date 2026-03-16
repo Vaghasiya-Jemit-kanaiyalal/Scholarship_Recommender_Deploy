@@ -11,6 +11,8 @@ export const Footer: React.FC = () => {
         <p className="footer-email">
           Email: <a href="mailto:contact@scholarshiphub.com">contact@scholarshiphub.com</a>
         </p>
+                <p> <h3 className="footer-tagline">*Currently i have entered data as practice do not mind it...</h3></p>
+
         <p> <h3 className="footer-tagline">*Please check the official scholarship website for accurate details. We may not have complete information, so kindly verify once</h3></p>
         <p className="footer-copyright">
           © {currentYear} ScholarshipHub. All rights reserved.

@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
       <div className="navbar-container">
         <div className="navbar-brand">
           {/* Logo now routes based on auth status */}
-          <Link to={getLogoRedirectPath()} className="navbar-brand-link">
+          <Link to={getLogoRedirectPath()} cl assName="navbar-brand-link">
             {/* 
               ===== LOGO PATH CONFIGURATION =====
               Step 1: Replace '/logo.svg' with your logo path
